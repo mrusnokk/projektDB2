@@ -13,6 +13,7 @@ namespace projektDB2
 
             string oracleConnString = builder.Configuration.GetConnectionString("OracleDbConnection")
     ?? "User Id=TVOJE_JMENO;Password=TVOJE_HESLO;Data Source=localhost:1521/XEPDB1;";
+            DbTester.RunTests(oracleConnString);//test databaze
             builder.Services.AddScoped<Repositories.InventoryRepository>(provider => new Repositories.InventoryRepository(oracleConnString));
             var app = builder.Build();
 
