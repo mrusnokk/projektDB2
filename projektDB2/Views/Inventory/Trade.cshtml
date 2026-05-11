@@ -1,0 +1,33 @@
+﻿@model projektDB2.Models.InventoryItem
+@{
+    ViewData["Title"] = "Odeslat Trade";
+    var currentUser = ViewBag.CurrentUser as projektDB2.Models.User;
+}
+
+<div class="container mt-4">
+    <h2>ODESLAT TRADE </h2>
+    <p class="lead">Vybraný item: <strong>#@Model.Id (@Model.WeaponName | @Model.SkinName)</strong> </p>
+    <p>Aktuální balance: @currentUser?.Balance</p>
+
+    <div class="card w-50">
+        <div class="card-body">
+            <form asp-action="Trade" method="post">
+                <input type="hidden" name="userFrom" value="@(currentUser?.Id ?? 1)" />
+                <input type="hidden" name="itemId" value="@Model.Id" />
+                
+                <div class="mb-3">
+                    <label>ID příjemce (p_id_user_to) :</label>
+                    <input type="number" name="userTo" class="form-control" required />
+                </div>
+                <div class="mb-3">
+                    <label>Cena (balance) :</label>
+                    <input type="number" step="0.01" name="price" class="form-control" required />
+                    <small class="text-muted">částka která se odečte příjemci a přičte odesílateli </small>
+                </div>
+                
+                <button type="submit" class="btn btn-danger w-100 mb-2">Potvrdit trade </button>
+                <a asp-action="Index" asp-route-userId="@(currentUser?.Id ?? 1)" class="btn btn-secondary w-100">Zrušit / Zpět</a>
+            </form>
+        </div>
+    </div>
+</div>
