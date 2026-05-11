@@ -1,72 +1,75 @@
 ﻿@model projektDB2.Models.InventoryItem
 @{
-    ViewData["Title"] = "Přidat / Odstranit Sticker";
-    var currentUser = ViewBag.CurrentUser as projektDB2.Models.User;
-    var stickers = ViewBag.Stickers as List<projektDB2.Models.ItemSticker>;
+	ViewData["Title"] = "Přidat / Odstranit Sticker";
+	var currentUser = ViewBag.CurrentUser as projektDB2.Models.User;
+	var stickers = ViewBag.Stickers as List<projektDB2.Models.ItemSticker>;
 }
 
 <div class="container mt-4">
-    <h2>PŘIDAT/ODSTRANIT STICKER </h2>
-    <p class="lead">Vybraný item: <strong>#@Model.Id (@Model.WeaponName | @Model.SkinName)</strong> </p>
+	<h2>PŘIDAT/ODSTRANIT STICKER </h2>
+	<p class="lead">Vybraný item: <strong>#@Model.Id (@Model.WeaponName | @Model.SkinName)</strong> </p>
 
-    <div class="row">
-        <div class="col-md-5">
-            <div class="card">
-                <div class="card-body">
-                    <form asp-action="AddSticker" method="post">
-                        <input type="hidden" name="currentUserId" value="@(currentUser?.Id ?? 1)" />
-                        <input type="hidden" name="inventoryItemId" value="@Model.Id" />
+	<div class="row">
+		<div class="col-md-5">
+			<div class="card">
+				<div class="card-body">
+					<form asp-action="AddSticker" method="post">
+						<input type="hidden" name="currentUserId" value="@(currentUser?.Id ?? 1)" />
+						<input type="hidden" name="inventoryItemId" value="@Model.Id" />
                         
-                        <div class="mb-3">
-                            <label>Sticker name :</label>
-                            <input type="text" name="stickerName" class="form-control" required />
-                        </div>
-                        <div class="mb-3">
-                            <label>Slot (0-4) :</label>
-                            <input type="number" name="slotIndex" class="form-control" min="0" max="4" required />
-                        </div>
-                        <div class="mb-3">
-                            <label>Wear (0-1) :</label>
-                            <input type="number" step="0.001" name="wear" class="form-control" min="0" max="1" required />
-                        </div>
-                        <button type="submit" class="btn btn-warning w-100">Uložit </button>
-                    </form>
-                </div>
-            </div>
-        </div>
+						<div class="mb-3">
+							<label>Sticker name :</label>
+							<input type="text" name="stickerName" class="form-control" required />
+						</div>
+						<div class="mb-3">
+							<label>Slot (0-4) :</label>
+							<input type="number" name="slotIndex" class="form-control" min="0" max="4" required />
+						</div>
+						<div class="mb-3">
+							<label>Wear (0-1) :</label>
+							<input type="number" step="0.001" name="wear" class="form-control" min="0" max="1" required />
+						</div>
+						<button type="submit" class="btn btn-warning w-100">Uložit </button>
+					</form>
+				</div>
+			</div>
+		</div>
 
-        <div class="col-md-7">
-            <table class="table table-striped">
-                <thead class="table-dark">
-                    <tr>
-                        <th>slot </th>
-                        <th>sticker name </th>
-                        <th>wear </th>
-                        <th>akce </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (stickers != null && stickers.Any())
-                    {
-                        foreach (var s in stickers)
-                        {
-                            <tr>
-                                <td>@s.SlotIndex </td>
-                                <td>@s.StickerName </td>
-                                <td>@s.Wear.ToString("0.00") </td>
-                                <td>
-                                    <form asp-action="DeleteSticker" method="post">
-                                        <input type="hidden" name="stickerId" value="@s.Id" />
-                                        <input type="hidden" name="currentUserId" value="@(currentUser?.Id ?? 1)" />
-                                        <button type="submit" class="btn btn-sm btn-outline-danger">Odstranit </button>
-                                    </form>
-                                </td>
-                            </tr>
-                        }
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <a asp-action="Index" asp-route-userId="@(currentUser?.Id ?? 1)" class="btn btn-secondary mt-3">Zpět do inventáře</a>
+		<div class="col-md-7">
+			<table class="table table-striped">
+				<thead class="table-dark">
+					<tr>
+						<th>slot </th>
+						<th>sticker name </th>
+						<th>wear </th>
+						<th>akce </th>
+					</tr>
+				</thead>
+				<tbody>
+					@if (stickers != null && stickers.Any())
+					{
+						foreach (var s in stickers)
+						{
+							<tr>
+								<td>@s.SlotIndex </td>
+								<td>@s.StickerName </td>
+								<td>@s.Wear.ToString("0.00") </td>
+								<td>
+									<form asp-action="DeleteSticker" method="post">
+										<input type="hidden" name="stickerId" value="@s.Id" />
+    
+										<input type="hidden" name="inventoryItemId" value="@Model.Id" />
+    
+										<input type="hidden" name="currentUserId" value="@(currentUser?.Id ?? 1)" />
+										<button type="submit" class="btn btn-sm btn-outline-danger">Odstranit </button>
+									</form>
+								</td>
+							</tr>
+						}
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<a asp-action="Index" asp-route-userId="@(currentUser?.Id ?? 1)" class="btn btn-secondary mt-3">Zpět do inventáře</a>
 </div>

@@ -1,4 +1,4 @@
-using Repositories;
+
 
 namespace projektDB2
 {
@@ -13,7 +13,7 @@ namespace projektDB2
 
             string oracleConnString = builder.Configuration.GetConnectionString("OracleDbConnection")
     ?? "User Id=TVOJE_JMENO;Password=TVOJE_HESLO;Data Source=localhost:1521/XEPDB1;";
-            builder.Services.AddScoped<InventoryRepository>(provider => new InventoryRepository(oracleConnString));
+            builder.Services.AddScoped<Repositories.InventoryRepository>(provider => new Repositories.InventoryRepository(oracleConnString));
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
